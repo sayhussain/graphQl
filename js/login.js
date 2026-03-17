@@ -3,8 +3,8 @@ const form = document.getElementById("loginForm")
 form.addEventListener("submit", function(event){
     event.preventDefault()
     //read username and password from form
-    const username = document.getElementById(username).value
-    const password = document.getElementById(password).value
+    const username = document.getElementById("username").value
+    const password = document.getElementById("password").value
     
     //change username and pass to base64 for basic auth
     const base64Credentials = btoa(username + ":" + password)   
@@ -12,8 +12,8 @@ form.addEventListener("submit", function(event){
     fetch("https://((DOMAIN))/api/auth/signin", {
         method: "post",
         headers: {
-            "Authintication": "Basic" + base64Credentials,
-            "Content-Type": "Application/json"
+            "Authorization": "Basic " + base64Credentials,
+            "Content-Type": "application/json"
         }
     })
     //request to backend and handle response
@@ -29,7 +29,7 @@ form.addEventListener("submit", function(event){
     .then(data => {
         const token = data.token
         localStorage.setItem("token", token)
-        window.location.href = "dashboard.html"
+        window.location.href = "profile.html"
     })
     .catch(error => {
         console.log(error.message)
