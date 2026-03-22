@@ -5,7 +5,7 @@ if(!token){
 
 }
 
-fetch("https://((DOMAIN))/api/graphql-engine/v1/graphql", {
+fetch("https://learn.reboot01.com/api/auth/signin", {
     method: "post",
     headers:{
         "Authorization": "Bearer " + token,
@@ -101,7 +101,7 @@ fetch("https://((DOMAIN))/api/graphql-engine/v1/graphql", {
         .then(data => {
             console.log(data);
 
-            const user = data.data.user[0]
+            const user = data.data.user
             const xp = data.data.transaction_aggregate.aggregate.sum.amount
              
             // show user info
