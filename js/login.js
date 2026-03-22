@@ -9,7 +9,7 @@ form.addEventListener("submit", function(event){
     //change username and pass to base64 for basic auth
     const base64Credentials = btoa(username + ":" + password)   
 
-    fetch("https://((DOMAIN))/api/auth/signin", {
+    fetch("https://learn.reboot01.com/api/auth/signin", {
         method: "post",
         headers: {
             "Authorization": "Basic " + base64Credentials,
