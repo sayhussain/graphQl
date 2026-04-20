@@ -21,6 +21,14 @@
 
     </form>
     <script src="js/auth.js"></script>
+    
+    <!-- Check if already logged in, redirect to profile -->
+    <script>
+        if (Auth.isTokenValid()) {
+            window.location.href = "profile.html";
+        }
+    </script>
+    
     <script src="js/login.js"></script>
 </body>
 </html>

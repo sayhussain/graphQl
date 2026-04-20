@@ -40,6 +40,8 @@ const Auth = {
      */
     clearToken() {
         localStorage.removeItem("token");
+        // Replace history so back button won't go back to profile
+        history.replaceState(null, document.title, window.location.href);
         console.log("Token cleared");
     },
 
