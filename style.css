@@ -11,19 +11,18 @@ body {
     min-height: 100vh;
     color: #333;
     padding: 20px;
-}
-
-/* Centered layout for login */
-body.login-page {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
+    margin: 0;
 }
 
-/* Full-width layout for profile */
-body.profile-page {
-    display: block;
-    background-attachment: fixed;
+body h1 {
+    text-align: center;
+    color: white;
+    margin-top: -50px;
+    margin-bottom: 30px;
 }
 
 /* ============ Login Page Styles ============ */
