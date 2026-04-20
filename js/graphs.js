@@ -12,12 +12,19 @@ function drawXpGraph(allXp) {
     
     // Calculate cumulative XP
     let cumulativeXp = 0;
-    const points = allXp.map((item, index) => {
+    const cumulativeArray = allXp.map((item) => {
         cumulativeXp += item.amount;
+        return cumulativeXp;
+    });
+    
+    // Get max cumulative XP for scaling
+    const maxCumulativeXp = cumulativeArray[cumulativeArray.length - 1] || 1;
+    
+    const points = allXp.map((item, index) => {
         return {
             x: padding + (index / (allXp.length - 1)) * (width - 2 * padding),
-            y: height - padding - (cumulativeXp / (cumulativeXp || 1)) * (height - 2 * padding),
-            amount: cumulativeXp
+            y: height - padding - (cumulativeArray[index] / maxCumulativeXp) * (height - 2 * padding),
+            amount: cumulativeArray[index]
         };
     });
     
