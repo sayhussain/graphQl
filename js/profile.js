@@ -1,113 +1,40 @@
-//if user he dont have token, redirect to login page
-const token = localStorage.getItem("token")
-if(!token){
-    window.location.href = "index.html"
+  // ============ Profile Module ============
+// Handles profile data display and initialization
 
+// Check if user is authenticated
+if (!Auth.isTokenValid()) {
+    window.location.href = "index.html";
 }
 
-fetch("https://learn.reboot01.com/api/auth/signin", {
-    method: "post",
-    headers:{
-        "Authorization": "Bearer " + token,
-        "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-        query: `
-                query {
-                    user {
-                        login
-                        email
-                        attrs
-                        auditRatio
-                        totalUp
-                        totalDown
-                        campus
-                    }
-                    transaction_aggregate(
-                        where: {
-                            event: { path: { _eq: "/bahrain/bh-module" } },
-                            type: { _eq: "xp" }
-                        }
-                    ) {
-                        aggregate {
-                            sum {
-                                amount
-                            }
-                        }
-                    }
-                    level: transaction(
-                        order_by: { amount: desc },
-                        limit: 1,
-                        where: {
-                            type: { _eq: "level" },
-                            path: { _like: "/bahrain/bh-module%" }
-                        }
-                    ) {
-                        amount
-                    }
-                    projects: transaction(
-                        where: {
-                            type: { _eq: "xp" },
-                            object: { type: { _eq: "project" } }
-                        },
-                        order_by: { createdAt: asc }
-                    ) {
-                        id
-                        object {
-                            name
-                        }
-                        amount
-                        createdAt
-                    }
-                    allXp: transaction(
-                        where: {
-                            event: { path: { _eq: "/bahrain/bh-module" } },
-                            type: { _eq: "xp" }
-                        },
-                        order_by: { createdAt: asc }
-                    ) {
-                        id
-                        object {
-                            name
-                            type
-                        }
-                        amount
-                        createdAt
-                    }
-                    skills: transaction(
-                        where: {
-                            _and: [
-                                {type: { _iregex: "(^|[^[:alnum:]])[[:alnum:]]*skill[[:alnum:]]*($|[^[:alnum:]])" }},
-                                {type: {_like: "%skill%"}},
-                                {object: {type: {_eq: "project"}}},
-                                {type: {_in: [
-                                    "skill_prog", "skill_algo", "skill_sys-admin", "skill_front-end", 
-                                    "skill_back-end", "skill_stats", "skill_ai", "skill_game", 
-                                    "skill_tcp"
-                                ]}}
-                            ]
-                        }
-                        order_by: [{type: asc}, {createdAt: desc}]
-                        distinct_on: type
-                    ) {
-                        amount
-                        type
-                    }
-                }
-            `
-    })
-})
-    .then(response => response.json())
-        .then(data => {
-            console.log(data);
+// Initialize profile on page load
+document.addEventListener("DOMContentLoaded", async function() {
+    try {
+        // Fetch user profile data using GraphQL module
+        const response = await GraphQL.fetchUserProfile();
+        
+        const user = response.data.user[0];
+        const xp = response.data.transaction_aggregate.aggregate.sum.amount;
+        const auditRatio = user.auditRatio;
+        const allXp = response.data.allXp;
+        const projects = response.data.projects;
 
-            const user = data.data.user
-            const xp = data.data.transaction_aggregate.aggregate.sum.amount
-             
-            // show user info
-            document.getElementById("username").innerText = user.login;
-            document.getElementById("xp").innerText = "xp: " + xp;
-            })
-            .catch(error => {
-         console.log(error);
-        });
+        // Display user info
+        document.getElementById("username").innerText = user.login;
+        document.getElementById("xp").innerText = "XP: " + xp;
+        document.getElementById("audit").innerText = "Audit Ratio: " + auditRatio.toFixed(2);
+
+        // Render graphs
+        drawXpGraph(allXp);
+        drawPassFailGraph(projects);
+
+    } catch (error) {
+        console.error("Failed to load profile:", error);
+        alert("Failed to load profile data. Please try again.");
+    }
+});
+
+// Logout functionality
+document.getElementById("logoutBtn").addEventListener("click", function() {
+    Auth.clearToken();
+    window.location.href = "index.html";
+});

@@ -9,10 +9,21 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     min-height: 100vh;
+    color: #333;
+    padding: 20px;
+}
+
+/* Centered layout for login */
+body.login-page {
     display: flex;
     justify-content: center;
     align-items: center;
-    color: #333;
+}
+
+/* Full-width layout for profile */
+body.profile-page {
+    display: block;
+    background-attachment: fixed;
 }
 
 /* ============ Login Page Styles ============ */
@@ -94,9 +105,9 @@ body {
     padding: 30px;
     border-radius: 10px;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-    max-width: 900px;
+    max-width: 950px;
     width: 100%;
-    margin: 0 auto;
+    margin: 20px auto;
 }
 
 #userInfo h1 {
@@ -106,29 +117,24 @@ body {
     font-size: 32px;
 }
 
-/* User Info Cards */
-#userInfo .info-card {
-    background: #f8f9fa;
-    padding: 20px;
-    border-radius: 8px;
-    margin-bottom: 20px;
-    border-left: 4px solid #667eea;
-}
-
-#userInfo .info-card p {
-    margin: 10px 0;
+#userInfo p {
+    margin: 15px 0;
     font-size: 16px;
-}
-
-#userInfo .info-card strong {
-    color: #667eea;
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 5px;
+    border-left: 4px solid #667eea;
 }
 
 /* ============ Stats Section ============ */
 #statsSection {
-    margin-top: 40px;
-    padding-top: 30px;
-    border-top: 2px solid #e0e0e0;
+    background: white;
+    margin: 20px auto;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    max-width: 950px;
+    width: 100%;
 }
 
 #statsSection h2 {
