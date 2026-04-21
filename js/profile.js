@@ -1,16 +1,6 @@
   // ============ Profile Module ============
 // Handles profile data display and initialization
 
-// Format XP with K (thousands) and M (millions) notation - 3 significant figures
-function formatXP(xp) {
-    if (xp >= 1000000) {
-        return (xp / 1000000).toFixed(2) + 'M';
-    } else if (xp >= 1000) {
-        return (xp / 1000).toFixed(2) + 'K';
-    }
-    return xp.toString();
-}
-
 // Check if user is authenticated
 if (!Auth.isTokenValid()) {
     window.location.href = "index.html";
@@ -30,7 +20,7 @@ document.addEventListener("DOMContentLoaded", async function() {
 
         // Display user info
         document.getElementById("username").innerText = user.login;
-        document.getElementById("xp").innerText = "XP: " + formatXP(xp);
+        document.getElementById("xp").innerText = "XP: " + xp;
         document.getElementById("audit").innerText = "Audit Ratio: " + auditRatio.toFixed(2);
 
         // Render graphs
